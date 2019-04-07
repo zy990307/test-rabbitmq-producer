@@ -8,7 +8,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class TestProducer02 {
+public class TestProducer02_Publish {
 
     //定义交换机
     private final static String EXCHANGE_FANOUT_INFORM = "EXCHANGE_FANOUT_INFORM";
@@ -25,10 +25,15 @@ public class TestProducer02 {
 
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
+        //定义断行队列
+        channel.queueDeclare(QUEUE_INFORM_SMS,true,false,false,null);
+        //定义邮件队列
+        channel.queueDeclare(QUEUE_INFORM_EMAIL,true,false,false,null);
         /**
          * 定义交换机
          * FANOUT：发布订阅模式
          */
         channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM, BuiltinExchangeType.FANOUT);
+
     }
 }
